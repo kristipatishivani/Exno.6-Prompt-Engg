@@ -101,7 +101,8 @@ def run_analysis(prompt):
 # Run the system
 run_analysis(prompt)
 
-# Result: The corresponding Prompt is executed successfully
+# Result:
+The corresponding Prompt is executed successfully
 The prompt is executed successfully.
 
 Outputs from OpenAI, Cohere, and Hugging Face are printed.
