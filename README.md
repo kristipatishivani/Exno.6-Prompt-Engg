@@ -14,17 +14,25 @@ Cohere (Command R or similar)
 
 Hugging Face (via Inference API)
 
-Python Code: Multi-AI Output Comparison
+**Python Code: Multi-AI Output Comparison**
 
-import openai import cohere import requests import difflib from transformers import pipeline from textblob import TextBlob
+import openai
+import cohere
+import requests
+import difflib
+from transformers import pipeline
+from textblob import TextBlob
 
-Step 1: Setup API keys (insert yours here)
-openai.api_key = "YOUR_OPENAI_API_KEY" co = cohere.Client("YOUR_COHERE_API_KEY") HF_API_TOKEN = "YOUR_HUGGINGFACE_API_KEY"
+# Step 1: Setup API keys (insert yours here)
+openai.api_key = "YOUR_OPENAI_API_KEY"
+co = cohere.Client("YOUR_COHERE_API_KEY")
+HF_API_TOKEN = "YOUR_HUGGINGFACE_API_KEY"
 
-Step 2: Unified prompt
+# Step 2: Unified prompt
 prompt = "Suggest three healthy lifestyle tips for managing stress."
 
-Step 3: Fetch response from OpenAI
+# Step 3: Fetch response from OpenAI
+```
 def get_openai_response(prompt):
         response = openai.ChatCompletion.create(
         model="gpt-4",
@@ -32,7 +40,9 @@ def get_openai_response(prompt):
         temperature=0.7
     )
     return response['choices'][0]['message']['content'].strip()
-Step 4: Fetch response from Cohere
+```
+# Step 4: Fetch response from Cohere
+```
 def get_cohere_response(prompt):
         response = co.generate(
         model='command-r',
@@ -41,23 +51,31 @@ def get_cohere_response(prompt):
         temperature=0.7
     )
     return response.generations[0].text.strip()
-Step 5: Fetch response from Hugging Face (e.g., google/flan-t5-base)
+```
+# Step 5: Fetch response from Hugging Face (e.g., google/flan-t5-base)
+```
 def get_huggingface_response(prompt):
     headers = {"Authorization": f"Bearer {HF_API_TOKEN}"}
     api_url = "https://api-inference.huggingface.co/models/google/flan-t5-base"
     response = requests.post(api_url, headers=headers, json={"inputs": prompt})
     return response.json()[0]['generated_text'].strip()
-Step 6: Compare responses using difflib
+```
+# Step 6: Compare responses using difflib
+```
 def compare_responses(r1, r2, r3):
     similarity_1_2 = difflib.SequenceMatcher(None, r1, r2).ratio()
     similarity_2_3 = difflib.SequenceMatcher(None, r2, r3).ratio()
     similarity_1_3 = difflib.SequenceMatcher(None, r1, r3).ratio()
     return round((similarity_1_2 + similarity_2_3 + similarity_1_3) / 3, 2)
-Step 7: Analyze sentiment
+```
+# Step 7: Analyze sentiment
+```
 def analyze_sentiment(text):
     blob = TextBlob(text)
     return blob.sentiment.polarity
-Step 8: Execute everything
+```
+# Step 8: Execute everything
+```
 def run_analysis(prompt):
     print("🧠 Prompt:", prompt)
     
@@ -89,8 +107,3 @@ The prompt is executed successfully.
 Outputs from OpenAI, Cohere, and Hugging Face are printed.
 
 Similarity score and sentiment analysis provide automated insights on alignment and tone.
-
-
-
-
-# Result: The corresponding Prompt is executed successfully
